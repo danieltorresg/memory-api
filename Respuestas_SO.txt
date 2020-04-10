@@ -1,0 +1,8 @@
+1. Imprime *Segmentation fault (core dumped)*, pero una vez se le asigna NULL al apuntador, cuando ejecutamos la instrucción *apuntador = 7, al no estar apuntando a nada, no puede realizar el cambio.
+2.El gdb, en el proceso de debug muestra información más detallada acerca del código en ejecución. Cuando sucede el error muestra la línea y la dirección de memoria del main.
+3.Sí, valgrind muestra que hay un error de segmentación (Segmentation fault) en el main en la linea 6. También nos ofrece un resumen del HEAP pero en este caso está vacío.
+4.Cuando se ejecuta el programa no pasa nada, el proceso acaba con normalidad. Con gdb no, el programa se ejecuta exitosamente sin mostrar ningún error. Usando valgrind se observa que hay una pérdida o fuga de memoría de 2 bytes en un bloque(pues el ejemplo fue hecho con un malloc de tamaño 2).
+5.AL ejecutar el programa, este finaliza sin problemas. Pero al correrlo con valgrind usando la bandera --leak-check=yes muestra que hay 400 bytes en un bloque que se pierden, es decir, un error de malloc. En pocas palabras, el programa termian con éxito su ejecución pero tiene errores de fuga de memoria que es memoria que se debe liberar antes de la finalización del proceso.
+6.Sí, el programa corre sin problemas. Por otro lado, al usar valgrind este indica que hay un error de lectura, el cual se hace en el array que fue previamente liberado.
+7.Al correr el programa en la terminal de ubuntu nos muestra que hay un apuntador invalido. Al hacer uso de valgrind se pudo detectar la cantidad de errores que fueron causados por el apuntador invalido y aunque no es necesaria otra herramienta para identificar este tipo de problema si ayuda bastante si se quieren conocer mas detalles de este tipo de problema.
+8.
