@@ -88,28 +88,28 @@ Enlace para [simular](http://www.pythontutor.com/c.html#code=%23define%20NULL%20
 
 ## Actividades de laboratorio ##
 
-1. Escriba un programa simple llamado ```null.c``` que cree un puntero a un entero, llevelo a null y entonces intente desreferenciarlo (esto es, asignarle un valor). Compile este programa llamado ```null```. ¿Qué pasa cuando usted ejecuta este programa?
-**R//:** Imprime *Segmentation fault (core dumped)*, pero una vez se le asigna NULL al apuntador, cuando ejecutamos la instrucción * apuntador = 7, al no estar apuntando a nada, no puede realizar el cambio.
+1. Escriba un programa simple llamado ```null.c``` que cree un puntero a un entero, llevelo a null y entonces intente desreferenciarlo (esto es, asignarle un valor). Compile este programa llamado ```null```. ¿Qué pasa cuando usted ejecuta este programa? \n
+**R//:** Imprime *Segmentation fault (core dumped)*, pero una vez se le asigna NULL al apuntador, cuando ejecutamos la instrucción \*apuntador = 7, al no estar apuntando a nada, no puede realizar el cambio.
 
-2. Compile el programa del ejercicio anterior usando información de simbolos (con la flag -g). Al hacer esto se esta poniendo mas informacion en el ejecutable para permitir al debugger acceder a informacion util sobre los nombres de las variables y cosas similares. Ejecute el programa bajo el debugger digitando en consola (para el caso) ```gdb null``` y entonces una vez el ```gdb``` este corriendo ejecute ```run```. ¿Qué muestra gdb?
+2. Compile el programa del ejercicio anterior usando información de simbolos (con la flag -g). Al hacer esto se esta poniendo mas informacion en el ejecutable para permitir al debugger acceder a informacion util sobre los nombres de las variables y cosas similares. Ejecute el programa bajo el debugger digitando en consola (para el caso) ```gdb null``` y entonces una vez el ```gdb``` este corriendo ejecute ```run```. ¿Qué muestra gdb? \n
 **R//:** El gdb, en el proceso de debug muestra información más detallada acerca del código en ejecución. Cuando sucede el error muestra la línea y la dirección de memoria del main.
 
-3. Haga uso de la herramienta ```valgrind``` en el programa empleado en los puntos anteriores. Se usará la herramienta ```memcheck``` que es parte de ```valgrind``` para analizar lo que pasa: ```valgrind --leak-check=yes null```. ¿Qué pasa cuando corre esto?, ¿Puede usted interpretar la salida de la herramienta anterior?
+3. Haga uso de la herramienta ```valgrind``` en el programa empleado en los puntos anteriores. Se usará la herramienta ```memcheck``` que es parte de ```valgrind``` para analizar lo que pasa: ```valgrind --leak-check=yes null```. ¿Qué pasa cuando corre esto?, ¿Puede usted interpretar la salida de la herramienta anterior? \n
 **R//:** Sí, valgrind muestra que hay un error de segmentación (Segmentation fault) en el main en la linea 6. También nos ofrece un resumen del HEAP pero en este caso está vacío.
 
-4. Escriba un programa sencillo que asigne memoria usando ```malloc()``` pero olvide liberarla antes de que el programa termina. ¿Qué pasa cuando este programa se ejecuta?, ¿Puede usted usar gdb para encontrar problemas como este?, ¿Que dice acerca de Valgrind (de nuevo use este con la bandera ```--leak check=yes```)?
+4. Escriba un programa sencillo que asigne memoria usando ```malloc()``` pero olvide liberarla antes de que el programa termina. ¿Qué pasa cuando este programa se ejecuta?, ¿Puede usted usar gdb para encontrar problemas como este?, ¿Que dice acerca de Valgrind (de nuevo use este con la bandera ```--leak check=yes```)? \n
 **R//:** Cuando se ejecuta el programa no pasa nada, el proceso acaba con normalidad. Con gdb no, el programa se ejecuta exitosamente sin mostrar ningún error. Usando valgrind se observa que hay una pérdida o fuga de memoría de 2 bytes en un bloque(pues el ejemplo fue hecho con un malloc de tamaño 2).
 
-5. Escriba un programa que cree un array de enteros llamado data de un tamaño de 100 usando ```malloc```; entonces, lleve el ```data[100]``` a ```0```. ¿Qué pasa cuando este programa se ejecuta?, ¿Qué pasa cuando se corre el programa usando ```valgrind```?, ¿El programa es correcto?
+5. Escriba un programa que cree un array de enteros llamado data de un tamaño de 100 usando ```malloc```; entonces, lleve el ```data[100]``` a ```0```. ¿Qué pasa cuando este programa se ejecuta?, ¿Qué pasa cuando se corre el programa usando ```valgrind```?, ¿El programa es correcto? \n
 **R//:** Al ejecutar el programa, este finaliza sin problemas. Pero al correrlo con valgrind usando la bandera --leak-check=yes muestra que hay 400 bytes en un bloque que se pierden, es decir, un error de malloc. En pocas palabras, el programa termian con éxito su ejecución pero tiene errores de fuga de memoria que es memoria que se debe liberar antes de la finalización del proceso.
 
-6. Codifique un programa que asigne un array de enteros (como arriba), luego lo libere, y entonces intente imprimir el valor de un elemento del array. ¿El programa corre?, ¿Que pasa cuando hace uso de ```valgrind```?
+6. Codifique un programa que asigne un array de enteros (como arriba), luego lo libere, y entonces intente imprimir el valor de un elemento del array. ¿El programa corre?, ¿Que pasa cuando hace uso de ```valgrind```? \n
 **R//:** Sí, el programa corre sin problemas. Por otro lado, al usar valgrind este indica que hay un error de lectura, el cual se hace en el array que fue previamente liberado.
 
-7. Ahora pase un **funny value** para liberar (e.g. un puntero en la mitad del array que usted ha asignado) ¿Qué pasa?, ¿Ústed necesita herramientas para encontrar este tipo de problemas?
+7. Ahora pase un **funny value** para liberar (e.g. un puntero en la mitad del array que usted ha asignado) ¿Qué pasa?, ¿Ústed necesita herramientas para encontrar este tipo de problemas? \n
 **R//:** Al correr el programa en la terminal de ubuntu nos muestra que hay un apuntador invalido. Al hacer uso de valgrind se pudo detectar la cantidad de errores que fueron causados por el apuntador invalido y aunque no es necesaria otra herramienta para identificar este tipo de problema si ayuda bastante si se quieren conocer mas detalles de este tipo de problema.
 
-8. Intente usar alguna de las otras interfaces para asignacion de memoria. Por ejemplo, cree una estructura de datos simple similar a un vector y que use rutinas que usen realloc para manejar el vector. Use un array para almacenar los elementos del vector; cuando un usuario agregue una entrada al vector, use realloc para asignar un espacio mas a este. ¿Que tan bien funciona el vector asi?, ¿Como se compara con una lista enlazada?, utilice ```valgrind``` para ayudarse en la busqueda de errores.
+8. Intente usar alguna de las otras interfaces para asignacion de memoria. Por ejemplo, cree una estructura de datos simple similar a un vector y que use rutinas que usen realloc para manejar el vector. Use un array para almacenar los elementos del vector; cuando un usuario agregue una entrada al vector, use realloc para asignar un espacio mas a este. ¿Que tan bien funciona el vector asi?, ¿Como se compara con una lista enlazada?, utilice ```valgrind``` para ayudarse en la busqueda de errores. \n
 **R//:**
 
 9. Gaste mas tiempo y lea sobre el uso de gdb y valgrind. Conocer estas herramientas es critico; gaste el tiempo y aprenda como volverse un experto debugger en UNIX y C enviroment.
