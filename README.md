@@ -114,7 +114,7 @@ Enlace para [simular](http://www.pythontutor.com/c.html#code=%23define%20NULL%20
 **R//:** Al correr el programa en la terminal de ubuntu nos muestra que hay un apuntador invalido. Al hacer uso de valgrind se pudo detectar la cantidad de errores que fueron causados por el apuntador invalido y aunque no es necesaria otra herramienta para identificar este tipo de problema si ayuda bastante si se quieren conocer mas detalles de este tipo de problema.
 
 8. Intente usar alguna de las otras interfaces para asignacion de memoria. Por ejemplo, cree una estructura de datos simple similar a un vector y que use rutinas que usen realloc para manejar el vector. Use un array para almacenar los elementos del vector; cuando un usuario agregue una entrada al vector, use realloc para asignar un espacio mas a este. ¿Que tan bien funciona el vector asi?, ¿Como se compara con una lista enlazada?, utilice ```valgrind``` para ayudarse en la busqueda de errores.  
-**R//:**
+**R//:** La función realloc lo que hace es dar o quitar memoria según se requiera, por lo tanto, el vector funciona bien. Pero a diferencia con una lista ligada (que se almacena en diferentes partes de la memoria) esta función tiene que buscar un bloque de memoria nuevo si en el que está almacenado el vector se llena pues guarda las posiciones de manera consecutiva. Una ventaja que presenta con respecto a las listas ligadas es que no necesita los registros de las ligas, entonces consume menos memoria.
 
 9. Gaste mas tiempo y lea sobre el uso de gdb y valgrind. Conocer estas herramientas es critico; gaste el tiempo y aprenda como volverse un experto debugger en UNIX y C enviroment.
 
